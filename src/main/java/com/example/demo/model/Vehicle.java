@@ -12,16 +12,19 @@ public class Vehicle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
     @Column(unique = true)
+    @Column(nullable = false)
     private String vin;
     private String make;
     private String model;
     private Integer year;
-    
+    @Column(nullable = false)
     private Long ownerId;
     private Boolean active;
     private LocalDateTime createdAt;
+    
     public Vehicle(Long id, String vin, String make, String model, Integer year, Long ownerId, Boolean active,
             LocalDateTime createdAt) {
         this.id = id;
