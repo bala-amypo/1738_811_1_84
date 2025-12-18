@@ -17,12 +17,10 @@ public class serviceEntry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "vehicle_id")
-    private VehicleEntity vehicle;
+    
+    private Vehicle vehicle;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "garage_id")
+    
     private Garage garage;
 
     private String serviceType;
@@ -35,7 +33,7 @@ public class serviceEntry {
 
     private LocalDateTime recordedAt;
 
-    public serviceEntry(Long id, VehicleEntity vehicle, GarageEntity garage, String serviceType, LocalDate serviceDate,
+    public serviceEntry(Long id, Vehicle vehicle, Garage garage, String serviceType, LocalDate serviceDate,
             Integer odometerReading, String description, LocalDateTime recordedAt) {
         this.id = id;
         this.vehicle = vehicle;
@@ -58,11 +56,11 @@ public class serviceEntry {
         this.id = id;
     }
 
-    public VehicleEntity getVehicle() {
+    public Vehicle getVehicle() {
         return vehicle;
     }
 
-    public void setVehicle(VehicleEntity vehicle) {
+    public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
 
