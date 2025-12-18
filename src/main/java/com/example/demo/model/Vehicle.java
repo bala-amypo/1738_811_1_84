@@ -8,7 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class VehicleEntity {
+public class Vehicle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class VehicleEntity {
     private Long ownerId;
     private Boolean active;
     private LocalDateTime createdAt;
-    public VehicleEntity(Long id, String vin, String make, String model, Integer year, Long ownerId, Boolean active,
+    public Vehicle(Long id, String vin, String make, String model, Integer year, Long ownerId, Boolean active,
             LocalDateTime createdAt) {
         this.id = id;
         this.vin = vin;
@@ -35,7 +35,7 @@ public class VehicleEntity {
 
     
 
-    public VehicleEntity() {
+    public Vehicle() {
     }
 
 
