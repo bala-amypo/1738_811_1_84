@@ -16,7 +16,8 @@ public class User {
     private String email;
 
     private String password;
-
+    
+    @Column(nullable = false)
     private String role;
 
     public User(Long id, String email, String password, String role) {

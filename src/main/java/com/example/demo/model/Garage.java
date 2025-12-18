@@ -9,8 +9,9 @@ import jakarta.persistence.Id;
 public class Garage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    
     private Long id;
-
+    @Column(unique = true)
     private String garageName;
     private String address;
     private String contactNumber;
