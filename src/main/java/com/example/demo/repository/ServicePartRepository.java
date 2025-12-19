@@ -2,8 +2,11 @@ package com.example.demo.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.example.demo.entity.ServicePartEntity;
+
+import com.example.demo.model.ServicePart;
 
 @Repository
-public interface ServicePartRepository extends JpaRepository<ServicePartEntity, Long> {
+public interface ServicePartRepository
+        extends JpaRepository<ServicePart, Long> {
+
 }
