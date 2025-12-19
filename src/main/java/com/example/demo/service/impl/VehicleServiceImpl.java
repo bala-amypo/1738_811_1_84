@@ -13,7 +13,7 @@ import com.example.demo.service.VehicleService;
 public class VehicleServiceImpl implements VehicleService {
 
     @Autowired
-    VehicleRepository repo;
+    private VehicleRepository repo;
 
     @Override
     public Vehicle createVehicle(Vehicle vehicle) {
@@ -22,12 +22,14 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public Vehicle getVehicleById(Long id) {
-        return repo.findById(id).orElse(null);
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Vehicle not found"));
     }
 
     @Override
     public Vehicle getVehicleByVin(String vin) {
-        return repo.findByVin(vin);
+        return repo.findByVin(vin)
+                .orElseThrow(() -> new RuntimeException("Vehicle not found with VIN: " + vin));
     }
 
     @Override
@@ -37,10 +39,10 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public void deactivateVehicle(Long id) {
-        Vehicle vehicle = repo.findById(id).orElse(null);
-        if (vehicle != null) {
-            vehicle.setActive(false);
-            repo.save(vehicle);
-        }
+        Vehicle vehicle = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Vehicle not found"));
+
+        vehicle.setActive(false);
+        repo.save(vehicle);
     }
 }
