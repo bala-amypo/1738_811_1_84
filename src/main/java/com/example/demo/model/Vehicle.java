@@ -22,11 +22,17 @@ public class Vehicle {
 
     private Boolean active = true;
 
-    private Timestamp createdAt = new Timestamp(System.currentTimeMillis());
+    private Timestamp createdAt =
+            new Timestamp(System.currentTimeMillis());
 
-    public Vehicle() {}
+    public Vehicle() {
+    }
 
-    public Vehicle(String vin, String make, String model, Integer year, Long ownerId) {
+    public Vehicle(String vin,
+                   String make,
+                   String model,
+                   Integer year,
+                   Long ownerId) {
         this.vin = vin;
         this.make = make;
         this.model = model;
@@ -34,20 +40,55 @@ public class Vehicle {
         this.ownerId = ownerId;
     }
 
-    public Long getId()
-     { 
+    public Long getId() {
         return id;
-         }
-    public String getVin() { return vin; }
-    public void setVin(String vin) { this.vin = vin; }
-    public String getMake() { return make; }
-    public void setMake(String make) { this.make = make; }
-    public String getModel() { return model; }
-    public void setModel(String model) { this.model = model; }
-    public Integer getYear() { return year; }
-    public void setYear(Integer year) { this.year = year; }
-    public Long getOwnerId() { return ownerId; }
-    public void setOwnerId(Long ownerId) { this.ownerId = ownerId; }
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    }
+
+    public String getVin() {
+        return vin;
+    }
+
+    public void setVin(String vin) {
+        this.vin = vin;
+    }
+
+    public String getMake() {
+        return make;
+    }
+
+    public void setMake(String make) {
+        this.make = make;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }

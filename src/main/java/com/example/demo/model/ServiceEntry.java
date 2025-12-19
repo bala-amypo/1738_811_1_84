@@ -1,59 +1,35 @@
-package com.example.demo.entity;
+package com.example.demo.model;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import java.sql.Timestamp;
+import java.util.Date;
+import jakarta.persistence.*;
 
 @Entity
+public class ServiceEntry {
 
-public class serviceEntry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    
+    @ManyToOne
     private Vehicle vehicle;
 
-    
+    @ManyToOne
     private Garage garage;
 
     private String serviceType;
-
-    private LocalDate serviceDate;
-
+    private Date serviceDate;
     private Integer odometerReading;
-
     private String description;
 
-    private LocalDateTime recordedAt;
+    private Timestamp recordedAt =
+            new Timestamp(System.currentTimeMillis());
 
-    public serviceEntry(Long id, Vehicle vehicle, Garage garage, String serviceType, LocalDate serviceDate,
-            Integer odometerReading, String description, LocalDateTime recordedAt) {
-        this.id = id;
-        this.vehicle = vehicle;
-        this.garage = garage;
-        this.serviceType = serviceType;
-        this.serviceDate = serviceDate;
-        this.odometerReading = odometerReading;
-        this.description = description;
-        this.recordedAt = recordedAt;
-    }
-
-    public serviceEntry() {
+    public ServiceEntry() {
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Vehicle getVehicle() {
@@ -80,11 +56,11 @@ public class serviceEntry {
         this.serviceType = serviceType;
     }
 
-    public LocalDate getServiceDate() {
+    public Date getServiceDate() {
         return serviceDate;
     }
 
-    public void setServiceDate(LocalDate serviceDate) {
+    public void setServiceDate(Date serviceDate) {
         this.serviceDate = serviceDate;
     }
 
@@ -103,16 +79,4 @@ public class serviceEntry {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public LocalDateTime getRecordedAt() {
-        return recordedAt;
-    }
-
-    public void setRecordedAt(LocalDateTime recordedAt) {
-        this.recordedAt = recordedAt;
-    }
-
-    
-    
-    
 }
