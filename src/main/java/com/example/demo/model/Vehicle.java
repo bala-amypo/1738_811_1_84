@@ -33,7 +33,10 @@ public class Vehicle {
     public Vehicle() {
     }
 
-   
+   public Long getId() {
+    return id;
+}
+
 
     public String getVin() {
         return vin;
