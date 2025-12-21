@@ -1,7 +1,8 @@
 package com.example.demo.model;
 
-import java.sql.Timestamp;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Entity
 public class VerificationLog {
@@ -11,22 +12,21 @@ public class VerificationLog {
     private Long id;
 
     @ManyToOne
+   
     private ServiceEntry serviceEntry;
 
-    private Timestamp verifiedAt =
-            new Timestamp(System.currentTimeMillis());
+  
+    private LocalDateTime verifiedAt;
 
     private Boolean verifiedBySystem = true;
 
     private String notes;
 
     public VerificationLog() {
+        this.verifiedAt = LocalDateTime.now();
     }
 
-    public Long getId() {
-        return id;
-    }
-
+    
     public ServiceEntry getServiceEntry() {
         return serviceEntry;
     }
@@ -35,7 +35,7 @@ public class VerificationLog {
         this.serviceEntry = serviceEntry;
     }
 
-    public Timestamp getVerifiedAt() {
+    public LocalDateTime getVerifiedAt() {
         return verifiedAt;
     }
 

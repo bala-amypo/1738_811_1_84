@@ -15,7 +15,6 @@ public class User {
     @Column(unique = true)
     private String email;
 
-    @NotBlank
     private String password;
 
     @NotBlank
@@ -24,9 +23,7 @@ public class User {
     public User() {
     }
 
-    public Long getId() {
-        return id;
-    }
+    
 
     public String getEmail() {
         return email;
