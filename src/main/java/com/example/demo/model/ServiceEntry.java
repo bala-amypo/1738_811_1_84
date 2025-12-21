@@ -1,7 +1,7 @@
 package com.example.demo.model;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,25 +12,27 @@ public class ServiceEntry {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
     @ManyToOne
+    @JoinColumn(name = "garage_id")
     private Garage garage;
 
     private String serviceType;
-    private Date serviceDate;
+
+    private LocalDate serviceDate;
+
     private Integer odometerReading;
+
     private String description;
 
-    private Timestamp recordedAt =
-            new Timestamp(System.currentTimeMillis());
+    private LocalDateTime recordedAt = LocalDateTime.now();
 
     public ServiceEntry() {
     }
 
-    public Long getId() {
-        return id;
-    }
+    
 
     public Vehicle getVehicle() {
         return vehicle;
@@ -56,11 +58,11 @@ public class ServiceEntry {
         this.serviceType = serviceType;
     }
 
-    public Date getServiceDate() {
+    public LocalDate getServiceDate() {
         return serviceDate;
     }
 
-    public void setServiceDate(Date serviceDate) {
+    public void setServiceDate(LocalDate serviceDate) {
         this.serviceDate = serviceDate;
     }
 
@@ -78,5 +80,13 @@ public class ServiceEntry {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public LocalDateTime getRecordedAt() {
+        return recordedAt;
+    }
+
+    public void setRecordedAt(LocalDateTime recordedAt) {
+        this.recordedAt = recordedAt;
     }
 }
