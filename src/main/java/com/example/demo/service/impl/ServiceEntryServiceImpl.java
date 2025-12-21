@@ -27,26 +27,16 @@ public class ServiceEntryServiceImpl implements ServiceEntryService {
             throw new RuntimeException("future");
         }
 
-        if (entry.getOdometerReading() < entry.getVehicle().getLastOdometer()) {
+        ServiceEntry lastEntry =
+                serviceEntryRepository.findTopByVehicleIdOrderByServiceDateDesc(
+                        entry.getVehicle().getId());
+
+        if (lastEntry != null &&
+            entry.getOdometerReading() < lastEntry.getOdometerReading()) {
             throw new RuntimeException(">=");
         }
 
         return serviceEntryRepository.save(entry);
     }
-
-    @Override
-    public ServiceEntry getServiceEntryById(Long id) {
-        return serviceEntryRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Service entry not found"));
-    }
-
-    @Override
-    public List<ServiceEntry> getEntriesForVehicle(Long vehicleId) {
-        return serviceEntryRepository.findByVehicleId(vehicleId);
-    }
-
-    @Override
-    public List<ServiceEntry> getEntriesByGarage(Long garageId) {
-        return serviceEntryRepository.findByGarageId(garageId);
-    }
 }
+
