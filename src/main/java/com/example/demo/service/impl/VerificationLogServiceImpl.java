@@ -1,32 +1,37 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.example.demo.model.VerificationLog;
-import com.example.demo.repository.VerificationLogRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import com.example.demo.service.VerificationLogService;
+import com.example.demo.repository.VerificationLogRepository;
+import com.example.demo.model.VerificationLog;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class VerificationLogServiceImpl implements VerificationLogService {
 
     @Autowired
-    VerificationLogRepository repo;
+    private VerificationLogRepository repository;
 
     @Override
     public VerificationLog createLog(VerificationLog log) {
-        return repo.save(log);
-    }
 
-    @Override
-    public List<VerificationLog> getLogsForEntry(Long entryId) {
-        return repo.findByServiceEntryId(entryId);
+        log.setVerifiedAt(LocalDateTime.now());
+
+        return repository.save(log);
     }
 
     @Override
     public VerificationLog getLogById(Long id) {
-        return repo.findById(id).orElse(null);
+
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("VerificationLog not found"));
+    }
+
+    @Override
+    public List<VerificationLog> getLogsForEntry(Long entryId) {
+
+        return repository.findByServiceEntryId(entryId);
     }
 }
