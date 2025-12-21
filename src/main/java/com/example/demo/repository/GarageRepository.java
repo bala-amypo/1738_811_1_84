@@ -1,12 +1,8 @@
 package com.example.demo.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import com.example.demo.model.Garage;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public interface GarageRepository
-        extends JpaRepository<Garage, Long> {
-
+public interface GarageRepository extends JpaRepository<Garage, Long> {
+    boolean existsByGarageName(String garageName);
 }

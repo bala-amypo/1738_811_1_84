@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 
+
 @Entity
 public class Garage {
 
@@ -9,27 +10,22 @@ public class Garage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+   
     @Column(unique = true)
     private String garageName;
 
+
     private String address;
+
+   
     private String contactNumber;
+
     private Boolean active = true;
 
     public Garage() {
     }
 
-    public Garage(String garageName,
-                  String address,
-                  String contactNumber) {
-        this.garageName = garageName;
-        this.address = address;
-        this.contactNumber = contactNumber;
-    }
-
-    public Long getId() {
-        return id;
-    }
+    
 
     public String getGarageName() {
         return garageName;

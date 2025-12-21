@@ -1,53 +1,52 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.demo.model.Garage;
 import com.example.demo.repository.GarageRepository;
 import com.example.demo.service.GarageService;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class GarageServiceImpl implements GarageService {
 
     @Autowired
-    GarageRepository repo;
+    private GarageRepository garageRepository;
 
     @Override
     public Garage createGarage(Garage garage) {
-        return repo.save(garage);
+        if (garageRepository.existsByGarageName(garage.getGarageName())) {
+            throw new RuntimeException("already exists");
+        }
+        return garageRepository.save(garage);
     }
 
     @Override
     public Garage updateGarage(Long id, Garage garage) {
-        Garage existing = repo.findById(id).orElse(null);
-        if (existing != null) {
-            existing.setGarageName(garage.getGarageName());
-            existing.setAddress(garage.getAddress());
-            existing.setContactNumber(garage.getContactNumber());
-            return repo.save(existing);
-        }
-        return null;
+        Garage existing = getGarageById(id);
+        existing.setGarageName(garage.getGarageName());
+        existing.setAddress(garage.getAddress());
+        existing.setContactNumber(garage.getContactNumber());
+        return garageRepository.save(existing);
     }
 
     @Override
     public Garage getGarageById(Long id) {
-        return repo.findById(id).orElse(null);
+        return garageRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Garage not found"));
     }
 
     @Override
     public List<Garage> getAllGarages() {
-        return repo.findAll();
+        return garageRepository.findAll();
     }
 
     @Override
     public void deactivateGarage(Long id) {
-        Garage garage = repo.findById(id).orElse(null);
-        if (garage != null) {
-            garage.setActive(false);
-            repo.save(garage);
-        }
+        Garage garage = getGarageById(id);
+        garage.setActive(false);
+        garageRepository.save(garage);
     }
 }
