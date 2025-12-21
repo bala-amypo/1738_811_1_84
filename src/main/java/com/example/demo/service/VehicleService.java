@@ -1,8 +1,8 @@
+
 package com.example.demo.service;
 
-import java.util.List;
-
 import com.example.demo.model.Vehicle;
+import java.util.List;
 
 public interface VehicleService {
 
@@ -16,4 +16,3 @@ public interface VehicleService {
 
     void deactivateVehicle(Long id);
 }
-    

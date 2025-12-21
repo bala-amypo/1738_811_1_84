@@ -1,21 +1,18 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import com.example.demo.model.Vehicle;
 import com.example.demo.service.VehicleService;
-
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/vehicles")
 public class VehicleController {
 
     @Autowired
-    VehicleService ser;
+    private VehicleService ser;
 
     @PostMapping
     public Vehicle registerVehicle(@Valid @RequestBody Vehicle vehicle) {
