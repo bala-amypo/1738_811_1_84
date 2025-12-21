@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import com.example.demo.model.Vehicle;
 import com.example.demo.service.VehicleService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/vehicles")
 public class VehicleController {
@@ -16,7 +18,7 @@ public class VehicleController {
     VehicleService ser;
 
     @PostMapping
-    public Vehicle registerVehicle(@RequestBody Vehicle vehicle) {
+    public Vehicle registerVehicle(@Valid @RequestBody Vehicle vehicle) {
         return ser.createVehicle(vehicle);
     }
 
