@@ -1,9 +1,11 @@
 package com.example.demo.model;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "vehicles")
 public class Vehicle {
 
     @Id
@@ -14,7 +16,9 @@ public class Vehicle {
     private String vin;
 
     private String make;
+
     private String model;
+
     private Integer year;
 
     @Column(nullable = false)
@@ -22,26 +26,17 @@ public class Vehicle {
 
     private Boolean active = true;
 
-    private Timestamp createdAt =
-            new Timestamp(System.currentTimeMillis());
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     public Vehicle() {
     }
 
-    public Vehicle(String vin,
-                   String make,
-                   String model,
-                   Integer year,
-                   Long ownerId) {
-        this.vin = vin;
-        this.make = make;
-        this.model = model;
-        this.year = year;
-        this.ownerId = ownerId;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getVin() {
@@ -90,5 +85,13 @@ public class Vehicle {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
