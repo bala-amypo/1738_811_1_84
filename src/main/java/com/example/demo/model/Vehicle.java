@@ -22,7 +22,7 @@ public class Vehicle {
     private String model;
 
     private Integer year;
-
+    @NotNull
     @Column(nullable = false)
     private Long ownerId;
 
