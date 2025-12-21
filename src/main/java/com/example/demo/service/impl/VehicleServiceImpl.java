@@ -27,6 +27,12 @@ public class VehicleServiceImpl implements VehicleService {
         return vehicleRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Vehicle not found"));
     }
+    @Override
+public Vehicle getVehicleByVin(String vin) {
+    return vehicleRepository.findByVin(vin)
+            .orElseThrow(() -> new EntityNotFoundException("Vehicle not found"));
+}
+
 
    
 
