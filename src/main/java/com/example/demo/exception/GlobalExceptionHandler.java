@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import com.example.demo.exception.VehicleNotFoundException;
+import com.example.demo.exception.DuplicateVinException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
