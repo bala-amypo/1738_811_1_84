@@ -1,7 +1,9 @@
 package com.example.demo.model;
 
-import java.math.BigDecimal;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @Entity
 public class ServicePart {
@@ -14,17 +16,17 @@ public class ServicePart {
     private ServiceEntry serviceEntry;
 
     private String partName;
+
     private String partNumber;
+
     private BigDecimal cost;
+
     private Integer quantity;
 
     public ServicePart() {
     }
 
-    public Long getId() {
-        return id;
-    }
-
+   
     public ServiceEntry getServiceEntry() {
         return serviceEntry;
     }

@@ -1,32 +1,32 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
+import com.example.demo.model.ServicePart;
+import com.example.demo.service.ServicePartService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.model.ServicePart;
-import com.example.demo.service.ServicePartService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/service-parts")
 public class ServicePartController {
 
     @Autowired
-    ServicePartService ser;
+    private ServicePartService servicePartService;
 
     @PostMapping
-    public ServicePart addPart(@RequestBody ServicePart part) {
-        return ser.createPart(part);
+    public ServicePart createServicePart(@Valid @RequestBody ServicePart part) {
+        return servicePartService.createServicePart(part);
     }
 
     @GetMapping("/{id}")
-    public ServicePart getPartById(@PathVariable Long id) {
-        return ser.getPartById(id);
+    public ServicePart getServicePartById(@PathVariable Long id) {
+        return servicePartService.getServicePartById(id);
     }
 
-    @GetMapping("/entry/{entryId}")
-    public List<ServicePart> getPartsForEntry(@PathVariable Long entryId) {
-        return ser.getPartsForEntry(entryId);
+    @GetMapping("/service-entry/{serviceEntryId}")
+    public List<ServicePart> getByServiceEntry(@PathVariable Long serviceEntryId) {
+        return servicePartService.getPartsByServiceEntry(serviceEntryId);
     }
 }

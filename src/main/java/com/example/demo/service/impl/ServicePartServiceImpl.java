@@ -1,32 +1,38 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.demo.model.ServicePart;
 import com.example.demo.repository.ServicePartRepository;
 import com.example.demo.service.ServicePartService;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ServicePartServiceImpl implements ServicePartService {
 
     @Autowired
-    ServicePartRepository repo;
+    private ServicePartRepository servicePartRepository;
 
     @Override
-    public ServicePart createPart(ServicePart part) {
-        return repo.save(part);
+    public ServicePart createServicePart(ServicePart part) {
+
+        if (part.getQuantity() <= 0) {
+            throw new RuntimeException("Quantity");
+        }
+
+        return servicePartRepository.save(part);
     }
 
     @Override
-    public List<ServicePart> getPartsForEntry(Long entryId) {
-        return repo.findByServiceEntryId(entryId);
+    public ServicePart getServicePartById(Long id) {
+        return servicePartRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Service part not found"));
     }
 
     @Override
-    public ServicePart getPartById(Long id) {
-        return repo.findById(id).orElse(null);
+    public List<ServicePart> getPartsByServiceEntry(Long serviceEntryId) {
+        return servicePartRepository.findByServiceEntryId(serviceEntryId);
     }
 }
