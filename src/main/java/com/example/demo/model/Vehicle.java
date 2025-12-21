@@ -1,17 +1,19 @@
 package com.example.demo.model;
 
 import java.time.LocalDateTime;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "vehicles")
+
 public class Vehicle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @NotBlank
     @Column(unique = true, nullable = false)
     private String vin;
 
