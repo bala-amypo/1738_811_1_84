@@ -1,7 +1,11 @@
-package com.example.demo.model;
+package com.example.demo.entity;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,10 +16,9 @@ public class VerificationLog {
     private Long id;
 
     @ManyToOne
-   
+    @JoinColumn(name = "service_entry_id", nullable = false)
     private ServiceEntry serviceEntry;
 
-  
     private LocalDateTime verifiedAt;
 
     private Boolean verifiedBySystem = true;
@@ -23,10 +26,16 @@ public class VerificationLog {
     private String notes;
 
     public VerificationLog() {
-        this.verifiedAt = LocalDateTime.now();
     }
 
-    
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public ServiceEntry getServiceEntry() {
         return serviceEntry;
     }
@@ -37,6 +46,10 @@ public class VerificationLog {
 
     public LocalDateTime getVerifiedAt() {
         return verifiedAt;
+    }
+
+    public void setVerifiedAt(LocalDateTime verifiedAt) {
+        this.verifiedAt = verifiedAt;
     }
 
     public Boolean getVerifiedBySystem() {
