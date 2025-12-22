@@ -17,7 +17,7 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public Vehicle createVehicle(Vehicle vehicle) {
         if(vehicleRepository.existsByVin(vehicle.getVin())) {
-            throw new RuntimeException("VIN already exists");
+            throw new RuntimeException("VIN ");
         }
         return vehicleRepository.save(vehicle);
     }
