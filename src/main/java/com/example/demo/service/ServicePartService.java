@@ -5,9 +5,9 @@ import java.util.List;
 
 public interface ServicePartService {
 
-    ServicePart createServicePart(ServicePart part);
+    ServicePart createPart(ServicePart part);
 
-    ServicePart getServicePartById(Long id);
+    List<ServicePart> getPartsForEntry(Long entryId);
 
-    List<ServicePart> getPartsByServiceEntry(Long serviceEntryId);
+    ServicePart getPartById(Long id);
 }
