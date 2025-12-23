@@ -8,7 +8,7 @@ import com.example.demo.repository.VehicleRepository;
 
 import java.util.Date;
 import java.util.List;
-
+@Service
 public class ServiceEntryServiceImpl implements ServiceEntryService {
 
     private final ServiceEntryRepository entryRepository;

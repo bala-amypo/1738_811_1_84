@@ -4,7 +4,7 @@ import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.model.ServicePart;
 import com.example.demo.repository.ServicePartRepository;
 import java.util.List;
-
+@Service
 public class ServicePartServiceImpl implements ServicePartService {
 
     private final ServicePartRepository partRepository;

@@ -4,7 +4,7 @@ import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.model.Garage;
 import com.example.demo.repository.GarageRepository;
 import java.util.List;
-
+@Service
 public class GarageServiceImpl implements GarageService {
 
     private final GarageRepository garageRepository;
