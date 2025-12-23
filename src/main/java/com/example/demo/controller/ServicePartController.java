@@ -2,8 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.model.ServicePart;
 import com.example.demo.service.ServicePartService;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,21 +10,24 @@ import java.util.List;
 @RequestMapping("/api/service-parts")
 public class ServicePartController {
 
-    @Autowired
-    private ServicePartService servicePartService;
+    private final ServicePartService servicePartService;
+
+    public ServicePartController(ServicePartService servicePartService) {
+        this.servicePartService = servicePartService;
+    }
 
     @PostMapping
-    public ServicePart createServicePart(@Valid @RequestBody ServicePart part) {
-        return servicePartService.createServicePart(part);
+    public ServicePart create(@RequestBody ServicePart part) {
+        return servicePartService.createPart(part);
     }
 
     @GetMapping("/{id}")
-    public ServicePart getServicePartById(@PathVariable Long id) {
-        return servicePartService.getServicePartById(id);
+    public ServicePart getById(@PathVariable Long id) {
+        return servicePartService.getPartById(id);
     }
 
-    @GetMapping("/service-entry/{serviceEntryId}")
-    public List<ServicePart> getByServiceEntry(@PathVariable Long serviceEntryId) {
-        return servicePartService.getPartsByServiceEntry(serviceEntryId);
+    @GetMapping("/entry/{entryId}")
+    public List<ServicePart> getByEntry(@PathVariable Long entryId) {
+        return servicePartService.getPartsForEntry(entryId);
     }
 }

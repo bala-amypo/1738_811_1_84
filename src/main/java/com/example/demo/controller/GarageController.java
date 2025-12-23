@@ -1,43 +1,43 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import com.example.demo.model.Garage;
 import com.example.demo.service.GarageService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/garages")
 public class GarageController {
 
-    @Autowired
-    GarageService ser;
+    private final GarageService garageService;
+
+    public GarageController(GarageService garageService) {
+        this.garageService = garageService;
+    }
 
     @PostMapping
-    public Garage createGarage(@RequestBody Garage garage) {
-        return ser.createGarage(garage);
+    public Garage create(@RequestBody Garage garage) {
+        return garageService.createGarage(garage);
     }
 
     @PutMapping("/{id}")
-    public Garage updateGarage(@PathVariable Long id, @RequestBody Garage garage) {
-        return ser.updateGarage(id, garage);
+    public Garage update(@PathVariable Long id, @RequestBody Garage garage) {
+        return garageService.updateGarage(id, garage);
     }
 
     @GetMapping("/{id}")
-    public Garage getGarageById(@PathVariable Long id) {
-        return ser.getGarageById(id);
+    public Garage getById(@PathVariable Long id) {
+        return garageService.getGarageById(id);
     }
 
     @GetMapping
-    public List<Garage> getAllGarages() {
-        return ser.getAllGarages();
+    public List<Garage> getAll() {
+        return garageService.getAllGarages();
     }
 
     @PutMapping("/{id}/deactivate")
-    public String deactivateGarage(@PathVariable Long id) {
-        ser.deactivateGarage(id);
-        return "Garage deactivated successfully";
+    public void deactivate(@PathVariable Long id) {
+        garageService.deactivateGarage(id);
     }
 }
