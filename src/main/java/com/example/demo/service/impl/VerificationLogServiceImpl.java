@@ -1,10 +1,11 @@
 package com.example.demo.service;
+import org.springframework.stereotype.Service;
 
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.model.VerificationLog;
 import com.example.demo.repository.VerificationLogRepository;
 import java.util.List;
-
+@Service
 public class VerificationLogServiceImpl implements VerificationLogService {
 
     private final VerificationLogRepository logRepository;

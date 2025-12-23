@@ -1,10 +1,11 @@
 package com.example.demo.service;
+import org.springframework.stereotype.Service;
 
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.model.Vehicle;
 import com.example.demo.repository.VehicleRepository;
 import java.util.List;
-
+@Service
 public class VehicleServiceImpl implements VehicleService {
 
     private final VehicleRepository vehicleRepository;
