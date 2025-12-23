@@ -1,13 +1,8 @@
 package com.example.demo.model;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 public class ServiceEntry {
@@ -24,33 +19,16 @@ public class ServiceEntry {
 
     private String serviceType;
 
-    private LocalDate serviceDate;
+    @Temporal(TemporalType.DATE)
+    private Date serviceDate;
 
     private Integer odometerReading;
 
     private String description;
 
-    private LocalDateTime recordedAt;
+    private Timestamp recordedAt = new Timestamp(System.currentTimeMillis());
 
     public ServiceEntry() {
-    }
-
-    public ServiceEntry(
-            Vehicle vehicle,
-            Garage garage,
-            String serviceType,
-            LocalDate serviceDate,
-            Integer odometerReading,
-            String description,
-            LocalDateTime recordedAt
-    ) {
-        this.vehicle = vehicle;
-        this.garage = garage;
-        this.serviceType = serviceType;
-        this.serviceDate = serviceDate;
-        this.odometerReading = odometerReading;
-        this.description = description;
-        this.recordedAt = recordedAt;
     }
 
     public Long getId() {
@@ -65,23 +43,11 @@ public class ServiceEntry {
         return garage;
     }
 
-    public String getServiceType() {
-        return serviceType;
-    }
-
-    public LocalDate getServiceDate() {
+    public Date getServiceDate() {
         return serviceDate;
     }
 
     public Integer getOdometerReading() {
         return odometerReading;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public LocalDateTime getRecordedAt() {
-        return recordedAt;
     }
 }

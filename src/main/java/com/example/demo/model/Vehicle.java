@@ -1,20 +1,17 @@
 package com.example.demo.model;
 
-import java.time.LocalDateTime;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
 import jakarta.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
-
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "vin"))
 public class Vehicle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
-    @Column(unique = true, nullable = false)
+
+    @Column(nullable = false, unique = true)
     private String vin;
 
     private String make;
@@ -22,21 +19,20 @@ public class Vehicle {
     private String model;
 
     private Integer year;
-    @NotNull
+
     @Column(nullable = false)
     private Long ownerId;
 
     private Boolean active = true;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private Timestamp createdAt = new Timestamp(System.currentTimeMillis());
 
     public Vehicle() {
     }
 
-   public Long getId() {
-    return id;
-}
-
+    public Long getId() {
+        return id;
+    }
 
     public String getVin() {
         return vin;
@@ -44,30 +40,6 @@ public class Vehicle {
 
     public void setVin(String vin) {
         this.vin = vin;
-    }
-
-    public String getMake() {
-        return make;
-    }
-
-    public void setMake(String make) {
-        this.make = make;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public Integer getYear() {
-        return year;
-    }
-
-    public void setYear(Integer year) {
-        this.year = year;
     }
 
     public Long getOwnerId() {
@@ -84,13 +56,5 @@ public class Vehicle {
 
     public void setActive(Boolean active) {
         this.active = active;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
     }
 }
