@@ -1,4 +1,5 @@
 package com.example.demo.service;
+import com.example.demo.exception.EntityNotFoundException;
 
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
