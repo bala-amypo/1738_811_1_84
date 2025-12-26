@@ -16,7 +16,6 @@ public class VerificationLogServiceImpl implements VerificationLogService {
 
     @Override
     public VerificationLog createLog(VerificationLog log) {
-        // Records are immutable once created (no update logic)
         return verificationLogRepository.save(log);
     }
 

@@ -31,7 +31,6 @@ public class UserServiceImpl implements UserService {
     public AuthResponse login(AuthRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        
         if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             String token = tokenProvider.generateToken(user.getEmail(), user.getRole(), user.getId());
             return new AuthResponse(token);
