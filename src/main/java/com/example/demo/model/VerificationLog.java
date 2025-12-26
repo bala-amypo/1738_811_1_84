@@ -23,9 +23,7 @@ public class VerificationLog {
         this.verifiedAt = verifiedAt;
     }
 
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    
     public String getVerifiedBy() { return verifiedBy; }
     public void setVerifiedBy(String verifiedBy) { this.verifiedBy = verifiedBy; }
     public LocalDateTime getVerifiedAt() { return verifiedAt; }
