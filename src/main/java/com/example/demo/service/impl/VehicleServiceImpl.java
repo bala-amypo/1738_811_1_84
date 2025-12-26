@@ -5,10 +5,12 @@ import com.example.demo.model.Vehicle;
 import com.example.demo.repository.VehicleRepository;
 import com.example.demo.service.VehicleService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public class VehicleServiceImpl implements VehicleService {
+
     private final VehicleRepository vehicleRepository;
 
     public VehicleServiceImpl(VehicleRepository vehicleRepository) {
@@ -26,13 +28,15 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public Vehicle getVehicleById(Long id) {
         return vehicleRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found"));
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Vehicle not found with id: " + id));
     }
 
     @Override
     public Vehicle getVehicleByVin(String vin) {
         return vehicleRepository.findByVin(vin)
-                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found"));
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Vehicle not found with vin: " + vin));
     }
 
     @Override
@@ -42,8 +46,8 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public void deactivateVehicle(Long id) {
-        Vehicle v = getVehicleById(id);
-        v.setActive(false);
-        vehicleRepository.save(v);
+        Vehicle vehicle = getVehicleById(id); // throws exception if not found
+        vehicle.setActive(false);
+        vehicleRepository.save(vehicle);
     }
 }
