@@ -1,8 +1,6 @@
 package com.example.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -10,30 +8,28 @@ public class VerificationLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY) // ✅ prevents client from sending id
     private Long id;
 
-    @ManyToOne(optional = false)
+    private String verifiedBy;
+    private LocalDateTime verifiedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "service_entry_id")
     private ServiceEntry serviceEntry;
 
-    private LocalDateTime verifiedAt = LocalDateTime.now();
+    public VerificationLog() {}
+    public VerificationLog(String verifiedBy, LocalDateTime verifiedAt) {
+        this.verifiedBy = verifiedBy;
+        this.verifiedAt = verifiedAt;
+    }
 
-    private Boolean verifiedBySystem = true;
-
-    private String notes;
-
-    // getters and setters
+    // Getters and Setters
     public Long getId() { return id; }
-
-    public ServiceEntry getServiceEntry() { return serviceEntry; }
-    public void setServiceEntry(ServiceEntry serviceEntry) { this.serviceEntry = serviceEntry; }
-
+    public void setId(Long id) { this.id = id; }
+    public String getVerifiedBy() { return verifiedBy; }
+    public void setVerifiedBy(String verifiedBy) { this.verifiedBy = verifiedBy; }
     public LocalDateTime getVerifiedAt() { return verifiedAt; }
     public void setVerifiedAt(LocalDateTime verifiedAt) { this.verifiedAt = verifiedAt; }
-
-    public Boolean getVerifiedBySystem() { return verifiedBySystem; }
-    public void setVerifiedBySystem(Boolean verifiedBySystem) { this.verifiedBySystem = verifiedBySystem; }
-
-    public String getNotes() { return notes; }
-    public void setNotes(String notes) { this.notes = notes; }
+    public ServiceEntry getServiceEntry() { return serviceEntry; }
+    public void setServiceEntry(ServiceEntry serviceEntry) { this.serviceEntry = serviceEntry; }
 }

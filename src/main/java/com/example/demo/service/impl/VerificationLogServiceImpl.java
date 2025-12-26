@@ -3,7 +3,6 @@ package com.example.demo.service.impl;
 import com.example.demo.model.VerificationLog;
 import com.example.demo.repository.VerificationLogRepository;
 import com.example.demo.service.VerificationLogService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,31 +10,30 @@ import java.util.List;
 @Service
 public class VerificationLogServiceImpl implements VerificationLogService {
 
-    private final VerificationLogRepository verificationLogRepository;
+    private final VerificationLogRepository logRepository;
 
-    public VerificationLogServiceImpl(VerificationLogRepository verificationLogRepository) {
-        this.verificationLogRepository = verificationLogRepository;
+    public VerificationLogServiceImpl(VerificationLogRepository logRepository) {
+        this.logRepository = logRepository;
     }
 
     @Override
-    public VerificationLog createLog(VerificationLog log) {
-
-        if (log.getServiceEntry() == null) {
-            throw new IllegalArgumentException("ServiceEntry must not be null");
-        }
-
-        return verificationLogRepository.save(log); // ID auto-generated
+    public VerificationLog saveLog(VerificationLog log) {
+        return logRepository.save(log);
     }
 
     @Override
-    public List<VerificationLog> getLogsForEntry(Long entryId) {
-        return verificationLogRepository.findByServiceEntryId(entryId);
+    public List<VerificationLog> getAllLogs() {
+        return logRepository.findAll();
+    }
+
+    @Override
+    public List<VerificationLog> getLogsByServiceEntryId(Long serviceEntryId) {
+        return logRepository.findByServiceEntryId(serviceEntryId);
     }
 
     @Override
     public VerificationLog getLogById(Long id) {
-        return verificationLogRepository.findById(id)
-                .orElseThrow(() ->
-                        new EntityNotFoundException("VerificationLog not found with id: " + id));
+        return logRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Verification log not found with id " + id));
     }
 }

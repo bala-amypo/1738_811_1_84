@@ -10,24 +10,29 @@ import java.util.List;
 @RequestMapping("/verification-logs")
 public class VerificationLogController {
 
-    private final VerificationLogService verificationLogService;
+    private final VerificationLogService logService;
 
-    public VerificationLogController(VerificationLogService verificationLogService) {
-        this.verificationLogService = verificationLogService;
+    public VerificationLogController(VerificationLogService logService) {
+        this.logService = logService;
     }
 
     @PostMapping
-    public VerificationLog create(@RequestBody VerificationLog log) {
-        return verificationLogService.createLog(log);
+    public VerificationLog addLog(@RequestBody VerificationLog log) {
+        return logService.saveLog(log);
+    }
+
+    @GetMapping
+    public List<VerificationLog> getAllLogs() {
+        return logService.getAllLogs();
     }
 
     @GetMapping("/{id}")
-    public VerificationLog getById(@PathVariable Long id) {
-        return verificationLogService.getLogById(id);
+    public VerificationLog getLog(@PathVariable Long id) {
+        return logService.getLogById(id);
     }
 
-    @GetMapping("/service-entry/{entryId}")
-    public List<VerificationLog> getByServiceEntry(@PathVariable Long entryId) {
-        return verificationLogService.getLogsForEntry(entryId);
+    @GetMapping("/service-entry/{serviceEntryId}")
+    public List<VerificationLog> getLogsByServiceEntry(@PathVariable Long serviceEntryId) {
+        return logService.getLogsByServiceEntryId(serviceEntryId);
     }
 }
