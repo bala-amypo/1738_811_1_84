@@ -1,5 +1,6 @@
 package com.example.demo.security;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -9,17 +10,24 @@ import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
-    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private final long expiration = 86400000;
 
-    public String generateToken(String email, String role, Long userId) {
+    // In a real app, move this to application.properties
+    private final String jwtSecret = "base64GeneratedSecretKeyForVehicleServiceProject2025";
+    private final long jwtExpirationInMs = 3600000; // 1 hour
+    private final Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+
+    public String createToken(String email, String role) {
+        Claims claims = Jwts.claims().setSubject(email);
+        claims.put("role", role); // Put role in the token!
+
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
+
         return Jwts.builder()
-                .setSubject(email)
-                .claim("role", role)
-                .claim("userId", userId)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(key)
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -34,5 +42,9 @@ public class JwtTokenProvider {
 
     public String getEmailFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject();
+    }
+
+    public String getRoleFromToken(String token) {
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("role", String.class);
     }
 }
