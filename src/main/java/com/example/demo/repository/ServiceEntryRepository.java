@@ -12,7 +12,6 @@ import java.util.Optional;
 public interface ServiceEntryRepository extends JpaRepository<ServiceEntry, Long> {
     Optional<ServiceEntry> findTopByVehicleOrderByOdometerReadingDesc(Vehicle vehicle);
     List<ServiceEntry> findByVehicleId(Long vehicleId);
-    List<ServiceEntry> findByGarageId(Long garageId);
 
     @Query("select s from ServiceEntry s where s.garage.id = :garageId and s.odometerReading > :minOdometer")
     List<ServiceEntry> findByGarageAndMinOdometer(@Param("garageId") Long garageId, @Param("minOdometer") Integer minOdometer);
