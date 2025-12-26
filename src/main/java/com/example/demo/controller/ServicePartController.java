@@ -3,14 +3,14 @@ package com.example.demo.controller;
 import com.example.demo.model.ServicePart;
 import com.example.demo.service.ServicePartService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/service-parts")
-@Tag(name = "Service Part Management")
+@Tag(name = "Service Part Controller")
 public class ServicePartController {
 
     private final ServicePartService servicePartService;
@@ -20,7 +20,7 @@ public class ServicePartController {
     }
 
     @PostMapping
-    public ResponseEntity<ServicePart> addPart(@RequestBody ServicePart part) {
+    public ResponseEntity<ServicePart> createPart(@Valid @RequestBody ServicePart part) {
         return ResponseEntity.ok(servicePartService.createPart(part));
     }
 

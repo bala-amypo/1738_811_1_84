@@ -3,14 +3,14 @@ package com.example.demo.controller;
 import com.example.demo.model.ServiceEntry;
 import com.example.demo.service.ServiceEntryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/service-entries")
-@Tag(name = "Service Entry Management")
+@Tag(name = "Service Entry Controller")
 public class ServiceEntryController {
 
     private final ServiceEntryService serviceEntryService;
@@ -20,7 +20,7 @@ public class ServiceEntryController {
     }
 
     @PostMapping
-    public ResponseEntity<ServiceEntry> createServiceEntry(@RequestBody ServiceEntry entry) {
+    public ResponseEntity<ServiceEntry> createServiceEntry(@Valid @RequestBody ServiceEntry entry) {
         return ResponseEntity.ok(serviceEntryService.createServiceEntry(entry));
     }
 
