@@ -1,32 +1,29 @@
-package com.example.demo.service;
-import org.springframework.stereotype.Service;
+package com.example.demo.service.impl;
 
-import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.model.ServicePart;
 import com.example.demo.repository.ServicePartRepository;
-import java.util.List;
+import com.example.demo.service.ServicePartService;
+
+import org.springframework.stereotype.Service;
+
 @Service
 public class ServicePartServiceImpl implements ServicePartService {
 
-    private final ServicePartRepository partRepository;
+    private final ServicePartRepository servicePartRepository;
 
-    public ServicePartServiceImpl(ServicePartRepository partRepository) {
-        this.partRepository = partRepository;
+
+    public ServicePartServiceImpl(ServicePartRepository servicePartRepository) {
+        this.servicePartRepository = servicePartRepository;
     }
 
-    public ServicePart createPart(ServicePart part) {
-        if (part.getQuantity() <= 0) {
-            throw new IllegalArgumentException("Quantity");
+
+    @Override
+    public ServicePart createServicePart(ServicePart servicePart) {
+
+        if (servicePart.getQuantity() <= 0) {
+            throw new RuntimeException("Quantity");
         }
-        return partRepository.save(part);
-    }
 
-    public List<ServicePart> getPartsForEntry(Long entryId) {
-        return partRepository.findByServiceEntryId(entryId);
-    }
-
-    public ServicePart getPartById(Long id) {
-        return partRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Part not found"));
+        return servicePartRepository.save(servicePart);
     }
 }
