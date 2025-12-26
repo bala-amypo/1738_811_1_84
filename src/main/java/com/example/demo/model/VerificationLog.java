@@ -1,7 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 public class VerificationLog {
@@ -13,12 +13,46 @@ public class VerificationLog {
     @ManyToOne
     private ServiceEntry serviceEntry;
 
-    private Timestamp verifiedAt = new Timestamp(System.currentTimeMillis());
+    private LocalDateTime verifiedAt;
 
     private Boolean verifiedBySystem = true;
 
     private String notes;
 
-    public VerificationLog() {
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public ServiceEntry getServiceEntry() {
+        return serviceEntry;
+    }
+
+    public void setServiceEntry(ServiceEntry serviceEntry) {
+        this.serviceEntry = serviceEntry;
+    }
+
+    public LocalDateTime getVerifiedAt() {
+        return verifiedAt;
+    }
+
+    public void setVerifiedAt(LocalDateTime verifiedAt) {
+        this.verifiedAt = verifiedAt;
+    }
+
+    public Boolean getVerifiedBySystem() {
+        return verifiedBySystem;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }
