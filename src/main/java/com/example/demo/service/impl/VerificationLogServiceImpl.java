@@ -3,11 +3,14 @@ package com.example.demo.service.impl;
 import com.example.demo.model.VerificationLog;
 import com.example.demo.repository.VerificationLogRepository;
 import com.example.demo.service.VerificationLogService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public class VerificationLogServiceImpl implements VerificationLogService {
+
     private final VerificationLogRepository verificationLogRepository;
 
     public VerificationLogServiceImpl(VerificationLogRepository verificationLogRepository) {
@@ -16,7 +19,12 @@ public class VerificationLogServiceImpl implements VerificationLogService {
 
     @Override
     public VerificationLog createLog(VerificationLog log) {
-        return verificationLogRepository.save(log);
+
+        if (log.getServiceEntry() == null) {
+            throw new IllegalArgumentException("ServiceEntry must not be null");
+        }
+
+        return verificationLogRepository.save(log); // ID auto-generated
     }
 
     @Override
@@ -26,6 +34,8 @@ public class VerificationLogServiceImpl implements VerificationLogService {
 
     @Override
     public VerificationLog getLogById(Long id) {
-        return verificationLogRepository.findById(id).orElseThrow();
+        return verificationLogRepository.findById(id)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("VerificationLog not found with id: " + id));
     }
 }
