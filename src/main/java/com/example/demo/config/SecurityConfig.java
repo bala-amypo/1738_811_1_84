@@ -4,9 +4,13 @@ import com.example.demo.security.JwtAuthenticationFilter;
 import com.example.demo.security.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -16,28 +20,32 @@ public class SecurityConfig {
 
     private final JwtTokenProvider tokenProvider;
 
-    // Constructor Injection (Requirement STEP 0)
     public SecurityConfig(JwtTokenProvider tokenProvider) {
         this.tokenProvider = tokenProvider;
+    }
+
+    // --- ADD THIS BEAN TO FIX THE ERROR ---
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    // Also common to need this for AuthController/UserService
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // 1. Disable CSRF (Crucial for fixing 403 on POST requests)
             .csrf(csrf -> csrf.disable())
-            
-            // 2. Configure Session to be Stateless (required for JWT)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            
-            // 3. Define public vs protected routes
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/**", "/health", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .requestMatchers("/api/**").authenticated()
                 .anyRequest().authenticated()
             )
-            
-            // 4. Add the JWT Filter
             .addFilterBefore(new JwtAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

@@ -11,14 +11,16 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    // In a real app, move this to application.properties
+    // Same secret key
     private final String jwtSecret = "base64GeneratedSecretKeyForVehicleServiceProject2025";
     private final long jwtExpirationInMs = 3600000; // 1 hour
     private final Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
 
-    public String createToken(String email, String role) {
+    // FIXED: Changed name to generateToken and added Long userId parameter
+    public String generateToken(String email, String role, Long userId) {
         Claims claims = Jwts.claims().setSubject(email);
-        claims.put("role", role); // Put role in the token!
+        claims.put("role", role);
+        claims.put("userId", userId); // Adding userId as requested by your service
 
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
