@@ -1,14 +1,14 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class ServiceEntry {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @ManyToOne
@@ -18,36 +18,25 @@ public class ServiceEntry {
     private Garage garage;
 
     private String serviceType;
-
-    @Temporal(TemporalType.DATE)
-    private Date serviceDate;
-
+    private LocalDate serviceDate;
     private Integer odometerReading;
+    private LocalDateTime recordedAt = LocalDateTime.now();
 
-    private String description;
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    private Timestamp recordedAt = new Timestamp(System.currentTimeMillis());
+    public Vehicle getVehicle() { return vehicle; }
+    public void setVehicle(Vehicle vehicle) { this.vehicle = vehicle; }
 
-    public ServiceEntry() {
-    }
+    public Garage getGarage() { return garage; }
+    public void setGarage(Garage garage) { this.garage = garage; }
 
-    public Long getId() {
-        return id;
-    }
+    public String getServiceType() { return serviceType; }
+    public void setServiceType(String serviceType) { this.serviceType = serviceType; }
 
-    public Vehicle getVehicle() {
-        return vehicle;
-    }
+    public LocalDate getServiceDate() { return serviceDate; }
+    public void setServiceDate(LocalDate serviceDate) { this.serviceDate = serviceDate; }
 
-    public Garage getGarage() {
-        return garage;
-    }
-
-    public Date getServiceDate() {
-        return serviceDate;
-    }
-
-    public Integer getOdometerReading() {
-        return odometerReading;
-    }
+    public Integer getOdometerReading() { return odometerReading; }
+    public void setOdometerReading(Integer odometerReading) { this.odometerReading = odometerReading; }
 }
