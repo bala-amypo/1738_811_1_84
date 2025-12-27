@@ -9,10 +9,12 @@ import java.io.IOException;
 public class SimpleHealthServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req,
-                         HttpServletResponse resp) throws IOException {
+    protected void doGet(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws IOException {
 
-        resp.setStatus(HttpServletResponse.SC_OK);
-        resp.getWriter().write("Application is running");
+        response.setContentType("application/json");
+        response.getWriter().write("{\"status\":\"UP\"}");
     }
 }
