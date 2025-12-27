@@ -4,12 +4,10 @@ import com.example.demo.model.ServicePart;
 import com.example.demo.repository.ServicePartRepository;
 import com.example.demo.service.ServicePartService;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
 public class ServicePartServiceImpl implements ServicePartService {
-
     private final ServicePartRepository servicePartRepository;
 
     public ServicePartServiceImpl(ServicePartRepository servicePartRepository) {
@@ -17,17 +15,20 @@ public class ServicePartServiceImpl implements ServicePartService {
     }
 
     @Override
-    public ServicePart addServicePart(ServicePart servicePart) {
-
-        if (servicePart.getQuantity() <= 0) {
-            throw new IllegalArgumentException("Invalid quantity");
+    public ServicePart createPart(ServicePart part) {
+        if (part.getQuantity() == null || part.getQuantity() <= 0) {
+            throw new IllegalArgumentException("Quantity must be positive");
         }
-
-        return servicePartRepository.save(servicePart);
+        return servicePartRepository.save(part);
     }
 
     @Override
-    public List<ServicePart> getPartsByServiceEntry(Long serviceEntryId) {
-        return servicePartRepository.findByServiceEntryId(serviceEntryId);
+    public List<ServicePart> getPartsForEntry(Long entryId) {
+        return servicePartRepository.findByServiceEntryId(entryId);
+    }
+
+    @Override
+    public ServicePart getPartById(Long id) {
+        return servicePartRepository.findById(id).orElseThrow();
     }
 }
