@@ -3,14 +3,14 @@ package com.example.demo.controller;
 import com.example.demo.model.Vehicle;
 import com.example.demo.service.VehicleService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/vehicles")
-@Tag(name = "Vehicle Management")
+@Tag(name = "Vehicle Controller")
 public class VehicleController {
 
     private final VehicleService vehicleService;
@@ -20,7 +20,7 @@ public class VehicleController {
     }
 
     @PostMapping
-    public ResponseEntity<Vehicle> registerVehicle(@RequestBody Vehicle vehicle) {
+    public ResponseEntity<Vehicle> createVehicle(@Valid @RequestBody Vehicle vehicle) {
         return ResponseEntity.ok(vehicleService.createVehicle(vehicle));
     }
 
@@ -42,6 +42,6 @@ public class VehicleController {
     @PutMapping("/{id}/deactivate")
     public ResponseEntity<Void> deactivateVehicle(@PathVariable Long id) {
         vehicleService.deactivateVehicle(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 }
