@@ -2,15 +2,12 @@ package com.example.demo.controller;
 
 import com.example.demo.model.ServicePart;
 import com.example.demo.service.ServicePartService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/service-parts")
-@Tag(name = "Service Part Controller")
+@RequestMapping("/service-parts")
 public class ServicePartController {
 
     private final ServicePartService servicePartService;
@@ -20,17 +17,12 @@ public class ServicePartController {
     }
 
     @PostMapping
-    public ResponseEntity<ServicePart> createPart(@Valid @RequestBody ServicePart part) {
-        return ResponseEntity.ok(servicePartService.createPart(part));
+    public ServicePart addServicePart(@RequestBody ServicePart servicePart) {
+        return servicePartService.addServicePart(servicePart);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ServicePart> getPart(@PathVariable Long id) {
-        return ResponseEntity.ok(servicePartService.getPartById(id));
-    }
-
-    @GetMapping("/entry/{entryId}")
-    public ResponseEntity<List<ServicePart>> getPartsForEntry(@PathVariable Long entryId) {
-        return ResponseEntity.ok(servicePartService.getPartsForEntry(entryId));
+    @GetMapping("/service-entry/{serviceEntryId}")
+    public List<ServicePart> getPartsByServiceEntry(@PathVariable Long serviceEntryId) {
+        return servicePartService.getPartsByServiceEntry(serviceEntryId);
     }
 }

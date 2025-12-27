@@ -2,15 +2,12 @@ package com.example.demo.controller;
 
 import com.example.demo.model.VerificationLog;
 import com.example.demo.service.VerificationLogService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/verification-logs")
-@Tag(name = "Verification Log Controller")
+@RequestMapping("/verification-logs")
 public class VerificationLogController {
 
     private final VerificationLogService verificationLogService;
@@ -20,17 +17,12 @@ public class VerificationLogController {
     }
 
     @PostMapping
-    public ResponseEntity<VerificationLog> createLog(@Valid @RequestBody VerificationLog log) {
-        return ResponseEntity.ok(verificationLogService.createLog(log));
+    public VerificationLog addLog(@RequestBody VerificationLog verificationLog) {
+        return verificationLogService.addVerificationLog(verificationLog);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<VerificationLog> getLog(@PathVariable Long id) {
-        return ResponseEntity.ok(verificationLogService.getLogById(id));
-    }
-
-    @GetMapping("/entry/{entryId}")
-    public ResponseEntity<List<VerificationLog>> getLogsForEntry(@PathVariable Long entryId) {
-        return ResponseEntity.ok(verificationLogService.getLogsForEntry(entryId));
+    @GetMapping("/service-entry/{serviceEntryId}")
+    public List<VerificationLog> getLogsByServiceEntry(@PathVariable Long serviceEntryId) {
+        return verificationLogService.getLogsByServiceEntry(serviceEntryId);
     }
 }
