@@ -1,12 +1,19 @@
 package com.example.demo.service;
 
 import com.example.demo.model.ServiceEntry;
-import jakarta.persistence.EntityNotFoundException;
+
+import java.time.LocalDate;
 import java.util.List;
 
 public interface ServiceEntryService {
-    ServiceEntry createServiceEntry(ServiceEntry entry);
-    ServiceEntry getServiceEntryById(Long id) throws EntityNotFoundException;
-    List<ServiceEntry> getEntriesForVehicle(Long vehicleId);
-    List<ServiceEntry> getEntriesByGarage(Long garageId);
+
+    ServiceEntry createServiceEntry(ServiceEntry serviceEntry);
+
+    ServiceEntry getServiceEntryById(Long id);
+
+    List<ServiceEntry> getServiceEntriesByVehicle(Long vehicleId);
+
+    List<ServiceEntry> getServiceEntriesByGarageAndOdometer(Long garageId, Integer minOdometer);
+
+    List<ServiceEntry> getServiceEntriesByVehicleAndDate(Long vehicleId, LocalDate from, LocalDate to);
 }
