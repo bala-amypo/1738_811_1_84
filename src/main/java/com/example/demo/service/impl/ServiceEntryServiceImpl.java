@@ -1,68 +1,62 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.Garage;
 import com.example.demo.model.ServiceEntry;
 import com.example.demo.model.Vehicle;
-import com.example.demo.repository.GarageRepository;
 import com.example.demo.repository.ServiceEntryRepository;
 import com.example.demo.repository.VehicleRepository;
 import com.example.demo.service.ServiceEntryService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ServiceEntryServiceImpl implements ServiceEntryService {
 
     private final ServiceEntryRepository serviceEntryRepository;
     private final VehicleRepository vehicleRepository;
-    private final GarageRepository garageRepository;
 
     public ServiceEntryServiceImpl(ServiceEntryRepository serviceEntryRepository,
-                                   VehicleRepository vehicleRepository,
-                                   GarageRepository garageRepository) {
+                                   VehicleRepository vehicleRepository) {
         this.serviceEntryRepository = serviceEntryRepository;
         this.vehicleRepository = vehicleRepository;
-        this.garageRepository = garageRepository;
     }
 
     @Override
-    public ServiceEntry createServiceEntry(ServiceEntry entry) {
-        Vehicle vehicle = vehicleRepository.findById(entry.getVehicle().getId())
+    public ServiceEntry createServiceEntry(ServiceEntry serviceEntry) {
+
+        Vehicle vehicle = vehicleRepository.findById(serviceEntry.getVehicle().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Vehicle not found"));
-        if (!vehicle.getActive()) throw new IllegalArgumentException("active vehicles");
 
-        Garage garage = garageRepository.findById(entry.getGarage().getId())
-                .orElseThrow(() -> new EntityNotFoundException("Garage not found"));
-        if (!garage.getActive()) throw new IllegalArgumentException("inactive garage");
+        serviceEntryRepository.findTopByVehicleOrderByOdometerReadingDesc(vehicle)
+                .ifPresent(last -> {
+                    if (serviceEntry.getOdometerReading() <= last.getOdometerReading()) {
+                        throw new IllegalArgumentException("Invalid odometer reading");
+                    }
+                });
 
-        if (entry.getServiceDate().isAfter(LocalDate.now()))
-            throw new IllegalArgumentException("future");
-
-        Optional<ServiceEntry> lastEntryOpt = serviceEntryRepository.findTopByVehicleOrderByOdometerReadingDesc(vehicle);
-        if (lastEntryOpt.isPresent() && entry.getOdometerReading() < lastEntryOpt.get().getOdometerReading())
-            throw new IllegalArgumentException(">=");
-
-        entry.setVehicle(vehicle);
-        entry.setGarage(garage);
-        return serviceEntryRepository.save(entry);
+        return serviceEntryRepository.save(serviceEntry);
     }
 
     @Override
     public ServiceEntry getServiceEntryById(Long id) {
         return serviceEntryRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("ServiceEntry not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Service entry not found"));
     }
 
     @Override
-    public List<ServiceEntry> getEntriesForVehicle(Long vehicleId) {
+    public List<ServiceEntry> getServiceEntriesByVehicle(Long vehicleId) {
         return serviceEntryRepository.findByVehicleId(vehicleId);
     }
 
     @Override
-    public List<ServiceEntry> getEntriesByGarage(Long garageId) {
-        return serviceEntryRepository.findByGarageAndMinOdometer(garageId, 0);
+    public List<ServiceEntry> getServiceEntriesByGarageAndOdometer(Long garageId, Integer minOdometer) {
+        return serviceEntryRepository.findByGarageAndMinOdometer(garageId, minOdometer);
+    }
+
+    @Override
+    public List<ServiceEntry> getServiceEntriesByVehicleAndDate(Long vehicleId, LocalDate from, LocalDate to) {
+        return serviceEntryRepository.findByVehicleAndDateRange(vehicleId, from, to);
     }
 }
